@@ -1,0 +1,71 @@
+{% extends 'base_forms.html' %}
+
+{% block title %}Registration{% endblock %}
+
+{% block card_header %}
+    <h3>Registration</h3>
+{% endblock %}
+
+
+{% block card_body %}
+    <form action="" method="POST" novalidate>
+        {{ form.hidden_tag() }}
+
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username(size=30) }}
+            {% for error in form.username.errors %}
+                {{ error }}
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.first_name.label }}<br>
+            {{ form.first_name(size=30) }}
+            {% for error in form.first_name.errors %}
+                {{ error }}
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.last_name.label }}<br>
+            {{ form.last_name(size=30) }}
+            {% for error in form.last_name.errors %}
+                {{ error }}
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.age.label }}<br>
+            {{ form.age(size=30) }}
+            {% for error in form.age.errors %}
+                {{ error }}
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.email.label }}<br>
+            {{ form.email(size=30) }}
+            {% for error in form.email.errors %}
+                {{ error }}
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=30) }}
+            {% for error in form.password.errors %}
+                {{ error }}
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.confirm_password.label }}<br>
+            {{ form.confirm_password(size=30) }}
+            {% for error in form.confirm_password.errors %}
+                {{ error }}
+            {% endfor %}
+        </p>
+
+        <button type="submit" class="btn btn-success">Sign in</button>
+    </form>
+{% endblock %}
+
+
+{% block card_footer %}
+    <a href="">Back to home page</a>
+{% endblock %}
