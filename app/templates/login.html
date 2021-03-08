@@ -1,0 +1,38 @@
+{% extends 'base_forms.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block  card_header %}
+    <h3>Please, log in</h3>
+{% endblock %}
+
+{% block  card_body %}
+    <form action="" method="POST" novalidate>
+        {{ form.hidden_tag() }}
+
+        <p>
+            {{ form.email.label }}<br>
+            {{ form.email(size=32) }}
+            {% for error in form.email.errors %}
+                <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </p>
+        
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}
+            {% for error in form.password.errors %}
+                <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.remember.label }} {{ form.remember() }}
+        </p>
+        <button type="submit" class="btn btn-success">Log In</button>
+
+    </form>
+{% endblock %}
+
+{% block  card_footer %}
+    <a href="">Back to home page</a>
+{% endblock %}
