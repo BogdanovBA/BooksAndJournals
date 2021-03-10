@@ -1,4 +1,4 @@
-from app.forms import RegistrationForm, LoginForm, BookForm
+from app.forms import RegistrationForm, LoginForm, BookForm, JournalForm, UpdateAccountForm
 from flask import redirect, url_for, request, render_template, flash
 from app import app, db
 from flask_login import login_user, logout_user, current_user, login_required
@@ -81,11 +81,25 @@ def books():
     return render_template('books.html', books=books)
 
 
+@app.route('/journals')
+@login_required
+def journals():
+    journals = Journal.query.all()
+    return render_template('journals.html', journals=journals)
+
+
 @app.route('/books/books_reversed')
 @login_required
 def books_reversed():
     books = Book.query.order_by(Book.rating.desc()).all()
     return render_template('books_reversed.html', books=books)
+
+
+@app.route('/journals/journals_reversed')
+@login_required
+def journals_reversed():
+    journals = Journal.query.order_by(Journal.page_amount.desc()).all()
+    return render_template('journals_reversed.html', journals=journals)
 
 
 @app.route('/books/book/<id>', methods=['GET'])
@@ -95,8 +109,34 @@ def book_detail(id:int):
     return render_template('book_detail.html', book=book)
 
 
+@app.route('/journals/journal/<id>', methods=['GET'])
+@login_required
+def journal_detail(id:int):
+    journal = Journal.query.get_or_404(id)
+    return render_template('journal_detail.html', journal=journal)
 
 
+@app.route('/account', methods=['GET', 'POST'])
+@login_required
+def account():
+    form = UpdateAccountForm(obj=current_user)
+    if request.method == 'POST' and not form.validate_on_submit():
+        flash('Error while profile updating')
+        return redirect(url_for('account'))
+    if request.method == "POST" and form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            current_user.image_file = picture_file
+        current_user.username = form.username.data 
+        current_user.email = form.email.data
+        current_user.first_name = form.first_name.data
+        current_user.last_name = form.last_name.data
+        db.session.commit()
+        flash('Profile updated successfully', 'success')
+        return redirect(url_for('account'))
+
+    image_file = url_for('static', filename='pics/' + current_user.image_file)
+    return render_template("account.html", form=form, image_file=image_file)
 
 
 
@@ -126,6 +166,19 @@ def book_add():
         new_book = Book(title = form.title.data, author = form.author.data, rating = form.rating.data, book_owner = current_user)
         db.session.add(new_book)
         db.session.commit()
-        flash('Book successfully create!')
-        return redirect(url_for('home'))
+        flash('Book successfully added!')
+        return redirect(url_for('book_add'))
     return render_template('book_add.html', form=form)
+
+
+@app.route('/journals/add', methods=['GET', 'POST'])
+@login_required
+def journal_add():
+    form = JournalForm()
+    if request.method == 'POST' and form.validate():
+        new_journal = Journal(title = form.title.data, editor = form.editor.data, page_amount = form.page_amount.data, journal_owner = current_user)
+        db.session.add(new_journal)
+        db.session.commit()
+        flash('Journal successfully added!')
+        return redirect(url_for('journal_add'))
+    return render_template('journal_add.html', form=form)

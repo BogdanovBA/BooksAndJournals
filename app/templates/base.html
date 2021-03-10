@@ -14,10 +14,11 @@
         <p class="h3 my-0 me-md-auto fw-bold text-light">Books&Journals</p>
         <nav class="my-2 my-md-0 me-md-3">
             <a class="p-2 text-light" href="{{ url_for('home') }}">Home</a>
+            <a class="p-2 text-light" href="{{ url_for('account') }}">Account</a>
             <a class="p-2 text-light" href="{{ url_for('books') }}">Books</a>
-            <a class="p-2 text-light" href="#">Journals</a>
+            <a class="p-2 text-light" href="{{ url_for('journals') }}">Journals</a>
             <a class="p-2 text-light" href="{{ url_for('books_reversed') }}">Best Books</a>
-            <a class="p-2 text-light" href="#">Best Journals</a>
+            <a class="p-2 text-light" href="{{ url_for('journals_reversed') }}">Best Journals</a>
             {% if current_user.is_authenticated %}
                 <a class="p-2 text-light" href="{{ url_for('logout') }}">Log out</a>
             {% else %}

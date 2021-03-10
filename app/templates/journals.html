@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}All journals{% endblock %}
+
+{% block body %}
+        <div class="all_books_block">
+            {% for journal in journals %}
+            <div class="card" style="width: 22rem; margin: 10px; border: 1px solid grey;">
+                <img class="card-img-top" src="{{ url_for('static', filename='pics/' + journal.image_file) }}" alt="Journal cover">
+                <div class="card-body">
+                  <h5 class="card-title"><a href="{{ url_for('journal_detail', id=journal.id) }}">{{ journal.title }}</a></h5>
+                  <p class="card-text"><b>Editor: {{ journal.editor }}</b></p>
+                  <p class="card-text">Page amount: {{ journal.page_amount }}</p>
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+{% endblock %}

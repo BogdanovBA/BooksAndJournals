@@ -1,0 +1,19 @@
+{% extends 'base_forms.html' %}
+
+{% block title %}Journal detail{% endblock %}
+
+{% block card_header %}
+    <h3>{{ journal.title }}</h3>
+    <img class="card-img-top" src="{{ url_for('static', filename='pics/' + journal.image_file) }}" alt="Book cover">
+{% endblock %}
+
+{% block card_body %}
+    <p><b>Editor:</b> {{ journal.editor }}</p>
+    <p><b>Created at:</b> {{ journal.created }}</p>
+    <p><b>Page amount:</b> {{ journal.page_amount }}</p>
+    <p><b>Owner:</b> {{ journal.journal_owner.username }}</p>
+{% endblock %}
+
+{% block card_footer %}
+    <a href="{{ url_for('journals') }}">To all journals</a>
+{% endblock %}
