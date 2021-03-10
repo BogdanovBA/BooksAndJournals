@@ -1,0 +1,42 @@
+{% extends 'base_forms.html' %}
+
+{% block title %}Add new book{% endblock %}
+
+{% block card_header %}
+    <h3>Add new book</h3>
+{% endblock %}
+
+{% block card_body %}
+    <p>Add new book using following form:</p>
+    <form action="" method="POST" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.title.label }}<br>
+            {{ form.title(size=40) }}
+            {% for error in form.title.errors %}
+                {{ error }}
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.author.label }}<br>
+            {{ form.author(size=40) }}
+            {% for error in form.author.errors %}
+                {{ error }}
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.rating.label }}<br>
+            {{ form.rating(size=40) }}
+            {% for error in form.rating.errors %}
+                {{ error }}
+            {% endfor %}
+        </p>
+        <button type="submit" class="btn btn-success">Add</button>
+    </form>
+{% endblock %}
+
+{% block card_footer %}
+    <span>
+        Back to <a href="{{ url_for('books') }}">all books</a>.
+    </span>
+{% endblock %}

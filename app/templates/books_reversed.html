@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}All books{% endblock %}
+
+{% block body %}
+        <div class="all_books_block">
+            {% for book in books %}
+            <div class="card" style="width: 22rem; margin: 10px; border: 1px solid grey;">
+                <img class="card-img-top" src="{{ url_for('static', filename='pics/' + book.image_file) }}" alt="Book cover">
+                <div class="card-body">
+                  <h5 class="card-title"><a href="{{ url_for('book_detail', id=book.id) }}">{{ book.title }}</a></h5>
+                  <p class="card-text"><b>Author: {{ book.author }}</b></p>
+                  <p class="card-text">Rating: {{ book.rating }}</p>
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+{% endblock %}

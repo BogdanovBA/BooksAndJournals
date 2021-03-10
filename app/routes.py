@@ -1,4 +1,4 @@
-from app.forms import RegistrationForm, LoginForm
+from app.forms import RegistrationForm, LoginForm, BookForm
 from flask import redirect, url_for, request, render_template, flash
 from app import app, db
 from flask_login import login_user, logout_user, current_user, login_required
@@ -12,7 +12,7 @@ def save_picture(form_picture):
     random_hex = secrets.token_hex(8) 
     file_ext = form_picture.filename.split('.')[-1]
     picture_filename = random_hex + "." +  file_ext
-    picture_path = os.path.join(app.root_path, 'static/media/' , picture_filename)
+    picture_path = os.path.join(app.root_path, 'static/pics/' , picture_filename)
     form_picture.save(picture_path)
 
     return picture_filename
@@ -62,7 +62,70 @@ def login():
 
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc !='':
-            next_page = url_for('home')
+            next_page = url_for('books')
         return redirect(next_page)
     
     return render_template('login.html', form=form)
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+
+@app.route('/books')
+@login_required
+def books():
+    books = Book.query.all()
+    return render_template('books.html', books=books)
+
+
+@app.route('/books/books_reversed')
+@login_required
+def books_reversed():
+    books = Book.query.order_by(Book.rating.desc()).all()
+    return render_template('books_reversed.html', books=books)
+
+
+@app.route('/books/book/<id>', methods=['GET'])
+@login_required
+def book_detail(id:int):
+    book = Book.query.get_or_404(id)
+    return render_template('book_detail.html', book=book)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@app.route('/books/add', methods=['GET', 'POST'])
+@login_required
+def book_add():
+    form = BookForm()
+    if request.method == 'POST' and form.validate():
+        new_book = Book(title = form.title.data, author = form.author.data, rating = form.rating.data, book_owner = current_user)
+        db.session.add(new_book)
+        db.session.commit()
+        flash('Book successfully create!')
+        return redirect(url_for('home'))
+    return render_template('book_add.html', form=form)

@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, BooleanField, TextAreaField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, TextAreaField, SubmitField, FloatField
 from wtforms.validators import DataRequired, EqualTo, ValidationError, Length, Email
 from .models import User, Journal, Book
 from flask_login import current_user
@@ -32,3 +32,10 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember me?')
     submit = SubmitField('Log in')
+
+
+class BookForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    author = StringField('Author', validators=[DataRequired()])
+    rating = FloatField('Rating', validators=[DataRequired()])
+    submit = SubmitField('Create')

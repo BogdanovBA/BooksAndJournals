@@ -6,3 +6,13 @@
 body {
     background-color: rgb(243, 253, 243);
 }
+
+.all_books_block {
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card-img-top {
+    max-width: 400px;
+}
