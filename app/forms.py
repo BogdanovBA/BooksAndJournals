@@ -67,3 +67,19 @@ class UpdateAccountForm(FlaskForm):
             user = User.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError('That email is taken. Please choose a different one.')
+
+
+class UpdateBookForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    author = StringField('Author', validators=[DataRequired()])
+    rating = FloatField('Rating', validators=[DataRequired()])
+    picture = FileField(label='Book cover', validators=[FileAllowed(['jpg', 'png', 'jpeg', 'svg'])])
+    submit = SubmitField('Update')
+
+
+class UpdateJournalForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    editor = StringField('Editor', validators=[DataRequired()])
+    page_amount = StringField('Page amount', validators=[DataRequired()])
+    picture = FileField(label='Journal cover', validators=[FileAllowed(['jpg', 'png', 'jpeg', 'svg'])])
+    submit = SubmitField('Update')

@@ -19,7 +19,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128)) # захешированный пароль
     books = db.relationship('Book', backref='book_owner', lazy='dynamic') # поле доступа из модели Book
     journals = db.relationship('Journal', backref='journal_owner', lazy='dynamic') # поле доступа из модели Journal
-    image_file = db.Column(db.String(20), nullable=False, default='default-user.png')
+    image_file = db.Column(db.String(20), nullable=False, default='defaultuser.png')
 
     def __rep__(self):
         return f'<User [username={self.username}, email={self.email}]>'
@@ -38,7 +38,7 @@ class Book(db.Model):
     author = db.Column(db.String(200)) # автор книги (тот, кто ее написал)
     rating = db.Column(db.Integer) # рейтинг книги
     user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # собственник книги (тот, кто разместил на сервисе)
-    image_file = db.Column(db.String(20), nullable=False, default='default-book.png')
+    image_file = db.Column(db.String(20), nullable=False, default='defaultbook.png')
 
     def __rep__(self):
         return f'<Book [title={self.title}, author={self.author}]>'
@@ -51,7 +51,7 @@ class Journal(db.Model):
     editor = db.Column(db.String(200)) # редактор журнала
     page_amount = db.Column(db.Integer) # количество страниц
     user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # cобственник (тот,кто разместил журнал на сервисе)
-    image_file = db.Column(db.String(20), nullable=False, default='default-journal.png')
+    image_file = db.Column(db.String(20), nullable=False, default='defaultjournal.png')
 
     def __repr__(self):
         return f'<Journal [title={self.title}, editor={self.author}]>'

@@ -15,5 +15,5 @@
 {% endblock %}
 
 {% block card_footer %}
-    <a href="{{ url_for('journals') }}">To all journals</a>
+    <a href="{{ url_for('journals') }}">To all journals</a> | <a href="{{ url_for('journal_update', id=journal.id) }}">Update journal</a>
 {% endblock %}

@@ -1,4 +1,4 @@
-from app.forms import RegistrationForm, LoginForm, BookForm, JournalForm, UpdateAccountForm
+from app.forms import RegistrationForm, LoginForm, BookForm, JournalForm, UpdateAccountForm, UpdateBookForm, UpdateJournalForm
 from flask import redirect, url_for, request, render_template, flash
 from app import app, db
 from flask_login import login_user, logout_user, current_user, login_required
@@ -71,7 +71,7 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for('home'))
 
 
 @app.route('/books')
@@ -139,8 +139,42 @@ def account():
     return render_template("account.html", form=form, image_file=image_file)
 
 
+@app.route('/books/<int:id>/update', methods=['GET', 'POST'])
+@login_required
+def book_update(id:int):
+    book = Book.query.get_or_404(id)
+    form = UpdateBookForm(obj=book)
+
+    if request.method == 'POST' and form.validate():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            book.image_file = picture_file
+        book.title = form.title.data
+        book.author = form.author.data
+        book.rating = form.rating.data
+        db.session.commit()
+        flash('Book successfully updated!')
+        return redirect(url_for('book_detail', id=book.id))
+    return render_template('book_update.html', book=book, form=form)
 
 
+@app.route('/journals/<int:id>/update', methods=['GET', 'POST'])
+@login_required
+def journal_update(id:int):
+    journal = Journal.query.get_or_404(id)
+    form = UpdateJournalForm(obj=journal)
+
+    if request.method == 'POST' and form.validate():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            journal.image_file = picture_file
+        journal.title = form.title.data
+        journal.editor = form.editor.data
+        journal.page_amount = form.page_amount.data
+        db.session.commit()
+        flash('Journal successfully updated!')
+        return redirect(url_for('journal_detail', id=journal.id))
+    return render_template('journal_update.html', journal=journal, form=form)
 
 
 

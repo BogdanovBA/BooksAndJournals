@@ -15,5 +15,5 @@
 {% endblock %}
 
 {% block card_footer %}
-    <a href="{{ url_for('books') }}">To all Books</a>
+    <a href="{{ url_for('books') }}">To all Books</a> | <a href="{{ url_for('book_update', id=book.id) }}">Update book</a>
 {% endblock %}

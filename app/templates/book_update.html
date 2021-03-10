@@ -1,0 +1,56 @@
+{% extends 'base_forms.html' %}
+
+{% block title %}Book updating{% endblock %}
+
+{% block card_header %}
+    <h3>Update</h3>
+{% endblock %}
+
+{% block card_body %}
+    <p>Update using following form:</p>
+    <img src="{{ url_for('static', filename='pics/' + book.image_file) }}" alt="Book cover">
+    <form action="" method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.title.label }}<br>
+            {{ form.title(size=40) }}<br>
+            {% for error in form.title.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.author.label }}<br>
+            {{ form.author(size=40) }}<br>
+            {% for error in form.author.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.rating.label }}<br>
+            {{ form.rating(size=40) }}<br>
+            {% for error in form.rating.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </p>
+        
+        <div class="form-group">
+            {{ form.picture.label() }}<br>
+            {{ form.picture(class="form-control-file")}}
+            {% if form.picture.errors %}
+                {% for error in form.picture.errors %}
+                    <span class="text-danger">{{ error }}</span></br>
+                {% endfor %}
+            {% endif %}
+        </div><br>
+        
+        <button type="submit" class="btn btn-outline-primary">Edit</button> 
+        
+        <a href="{{ url_for('book_detail', id=book.id) }}", class="btn btn-outline-primary">Cancel</a>
+    </form>
+{% endblock %}
+
+{% block card_footer %}
+    <span>
+        Back to <a href="{{ url_for('books') }}">to all books</a>.
+    </span>
+{% endblock %}
